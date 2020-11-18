@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/navigation_task"
         android:name="com.lig.intermediate.notes.ui.task.TaskFragment"
-        android:label="@string/title_home"
+        android:label="@string/title_task"
         tools:layout="@layout/fragment_task" />
 
     <fragment
         android:id="@+id/navigation_notes"
         android:name="com.lig.intermediate.notes.ui.notes.NotesFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_note"
         tools:layout="@layout/fragment_notes" />
 </navigation>
