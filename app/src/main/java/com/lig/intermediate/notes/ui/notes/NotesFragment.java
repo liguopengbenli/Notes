@@ -1,4 +1,4 @@
-package com.lig.intermediate.notes.ui.home;
+package com.lig.intermediate.notes.ui.notes;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,16 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.lig.intermediate.notes.R;
 
-public class HomeFragment extends Fragment {
+public class NotesFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private NotesViewModel notesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        notesViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_notes, container, false);
+        final TextView textView = root.findViewById(R.id.text_dashboard);
+        notesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
