@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.notes.R
+import com.lig.intermediate.notes.models.Task
+import kotlinx.android.synthetic.main.fragment_task.*
 
 class TaskFragment : Fragment() {
     private var TaskViewModel: TaskViewModel? = null
@@ -17,8 +20,18 @@ class TaskFragment : Fragment() {
     ): View? {
         TaskViewModel = TaskViewModel()
         val root = inflater.inflate(R.layout.fragment_task, container, false)
-        val textView = root.findViewById<TextView>(R.id.text_task)
-        TaskViewModel!!.text.observe(viewLifecycleOwner, { s -> textView.text = s })
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        taskRecycleView.layoutManager = LinearLayoutManager(context)
+        val adapter = TaskAdapter(mutableListOf(
+            Task("Testing 1"),
+            Task("Testing 2")
+        ))
+        taskRecycleView.adapter = adapter
+
+
     }
 }
