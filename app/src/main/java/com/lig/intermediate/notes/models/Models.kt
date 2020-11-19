@@ -1,4 +1,4 @@
-package com.lig.intermediate.notes
+package com.lig.intermediate.notes.models
 
 // kotlin auto generate setter and gettter
 // data class auto generate toString, copie...
@@ -7,7 +7,7 @@ package com.lig.intermediate.notes
 data class Task @JvmOverloads constructor(
     var title:String,
     val todos: MutableList<Todo> = mutableListOf(), // create defaut empty list
-    val tag: com.lig.intermediate.notes.Tag? = null
+    val tag: Tag? = null
 )
 
 data class Todo(
@@ -17,7 +17,7 @@ data class Todo(
 
 data class Note(
     var description: String,
-    var tag: com.lig.intermediate.notes.Tag? = null
+    var tag: Tag? = null
 )
 
 data class Tag(

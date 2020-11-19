@@ -1,34 +1,25 @@
-package com.lig.intermediate.notes.ui.notes;
+package com.lig.intermediate.notes.ui.notes
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import com.lig.intermediate.notes.R
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
-import com.lig.intermediate.notes.R;
-
-public class NotesFragment extends Fragment {
-
-    private NotesViewModel notesViewModel;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        notesViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notes, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        notesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+// fragment is a portion of UI like sub activity and can be resued
+class NotesFragment : Fragment() {
+    private var notesViewModel: NotesViewModel? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        notesViewModel = NotesViewModel()
+        val root = inflater.inflate(R.layout.fragment_notes, container, false)
+        val textView = root.findViewById<TextView>(R.id.text_notes)
+        notesViewModel!!.text.observe(viewLifecycleOwner, { s -> textView.text = s })
+        return root
     }
 }
