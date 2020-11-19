@@ -31,7 +31,6 @@ class TaskFragment : Fragment() {
             Task("Testing 2")
         ))
         taskRecycleView.adapter = adapter
-
-
     }
+
 }
