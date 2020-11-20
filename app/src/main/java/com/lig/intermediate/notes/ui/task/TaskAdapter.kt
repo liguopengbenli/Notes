@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.foundations.BaseRecycleAdapter
 import com.lig.intermediate.notes.models.Task
+import com.lig.intermediate.notes.views.TodoView
 import kotlinx.android.synthetic.main.item_task.view.*
 import kotlinx.android.synthetic.main.view_todo.view.*
 
@@ -23,21 +24,9 @@ class TaskAdapter(
             view.item_task_title.text = data.title
             // for each tod we inflate a view and populate and attach to parent container
             data.todos.forEach { todo ->
-             val todoView =   LayoutInflater.from(view.context).inflate(R.layout.view_todo, view.todoContainer, false).apply {
-                 descriptionView.text = todo.description
-                 completeCheckBox.isChecked = todo.isComplete
-                 if(todo.isComplete){
-                     descriptionView.paintFlags = descriptionView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                 }
-                 completeCheckBox.setOnCheckedChangeListener { button, isCheck ->
-                     if(isCheck){
-                         // set some Paint style to textView
-                         descriptionView.paintFlags = descriptionView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                     } else{
-                         descriptionView.paintFlags = descriptionView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                     }
-
-                 }
+                // cast to new view
+             val todoView =   (LayoutInflater.from(view.context).inflate(R.layout.view_todo, view.todoContainer, false) as TodoView ).apply {
+                 initView(todo)
              }
                 // R.layout.view_todo : to get resources from here
                 // view.todoContainer: parent view group
