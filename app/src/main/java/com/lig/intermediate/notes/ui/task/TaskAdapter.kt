@@ -22,11 +22,12 @@ class TaskAdapter(
             view.item_task_title.text = data.title
             // for each tod we inflate a view and populate and attach to parent container
             data.todos.forEach { todo ->
-             val todoView =   LayoutInflater.from(view.context).inflate(R.layout.view_todo, view.todoContainer, false)
+             val todoView =   LayoutInflater.from(view.context).inflate(R.layout.view_todo, view.todoContainer, false).apply {
+                 descriptionView.text = todo.description
+                 completeCheckBox.isChecked = todo.isComplete
+             }
                 // R.layout.view_todo : to get resources from here
                 // view.todoContainer: parent view group
-                todoView.descriptionView.text = todo.description
-                todoView.completeCheckBox.isChecked = todo.isComplete
                 view.todoContainer.addView(todoView) // attach to parent
             }
         }
