@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.foundations.BaseRecycleAdapter
 import com.lig.intermediate.notes.models.Note
-import kotlinx.android.synthetic.main.fragment_notes.view.*
 import kotlinx.android.synthetic.main.item_note.view.*
 
 class NoteAdapter(

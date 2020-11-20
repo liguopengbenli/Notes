@@ -8,6 +8,7 @@ import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.foundations.BaseRecycleAdapter
 import com.lig.intermediate.notes.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
+import kotlinx.android.synthetic.main.view_todo.view.*
 
 class TaskAdapter(
     taskList: MutableList<Task> = mutableListOf()
@@ -18,7 +19,16 @@ class TaskAdapter(
 
     class ViewHolder(view: View): BaseViewHolder<Task>(view){
         override fun onBind(data: Task) {
-            view.item_task_text.text = data.title
+            view.item_task_title.text = data.title
+            // for each tod we inflate a view and populate and attach to parent container
+            data.todos.forEach { todo ->
+             val todoView =   LayoutInflater.from(view.context).inflate(R.layout.view_todo, view.todoContainer, false)
+                // R.layout.view_todo : to get resources from here
+                // view.todoContainer: parent view group
+                todoView.descriptionView.text = todo.description
+                todoView.completeCheckBox.isChecked = todo.isComplete
+                view.todoContainer.addView(todoView) // attach to parent
+            }
         }
 
     }
