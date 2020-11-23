@@ -1,62 +1,51 @@
-package com.lig.intermediate.notes.views;
+package com.lig.intermediate.notes.views
 
-import android.content.Context;
-import android.graphics.Paint;
-import android.util.AttributeSet;
-import android.widget.CheckBox;
-import android.widget.TextView;
+import android.content.Context
+import android.graphics.Paint
+import android.util.AttributeSet
+import android.widget.CheckBox
+import android.widget.CompoundButton
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.lig.intermediate.notes.R
+import com.lig.intermediate.notes.models.Todo
+import kotlinx.android.synthetic.main.view_todo.view.*
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+class TodoView @JvmOverloads constructor( // make sure work for java
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 1
+) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-import com.lig.intermediate.notes.R;
-import com.lig.intermediate.notes.models.Todo;
-
-public class TodoView extends ConstraintLayout {
-    private CheckBox completeCheckBox;
-    private TextView descriptionView;
-
-    public TodoView(@NonNull Context context) {
-        super(context);
-    }
-
-    public TodoView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public TodoView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    public void initView(Todo todo){
-        completeCheckBox = findViewById(R.id.completeCheckBox);
-        descriptionView = findViewById(R.id.descriptionView);
-        descriptionView.setText(todo.getDescription());
-        completeCheckBox.setChecked(todo.isComplete());
-        if(todo.isComplete()){
-            createStrikeThrough();
+    fun initView(todo: Todo) {
+        descriptionView.setText(todo.description)
+        completeCheckBox.setChecked(todo.isComplete)
+        if (todo.isComplete) {
+            createStrikeThrough()
         }
-        setUpCheckStateListener();
+        setUpCheckStateListener()
     }
 
-    public void setUpCheckStateListener(){
-        completeCheckBox.setOnCheckedChangeListener((button, isCheck)-> {
-                if (isCheck){
-                    createStrikeThrough();
-                }else{
-                    removeStrikeThrough();
-                }
-        });
+    private fun setUpCheckStateListener() {
+        completeCheckBox.setOnCheckedChangeListener { _, isCheck: Boolean -> // _ means the parameter won't be used
+            if (isCheck) {
+                createStrikeThrough()
+            } else {
+                removeStrikeThrough()
+            }
+        }
     }
 
     // Paints flags are like series of bits, put one bit to 1 using logic operation
-    private void createStrikeThrough(){
-        descriptionView.setPaintFlags(descriptionView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+    private fun createStrikeThrough() {
+        descriptionView.apply {
+            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        }
     }
 
-    private void removeStrikeThrough(){
-        descriptionView.setPaintFlags(descriptionView.getPaintFlags() & ~(Paint.STRIKE_THRU_TEXT_FLAG));
+    private fun removeStrikeThrough() {
+        descriptionView.apply {
+            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        }
     }
-
 }
