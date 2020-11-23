@@ -18,8 +18,8 @@ class TodoView @JvmOverloads constructor( // make sure work for java
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     fun initView(todo: Todo) {
-        descriptionView.setText(todo.description)
-        completeCheckBox.setChecked(todo.isComplete)
+        descriptionView.text = todo.description
+        completeCheckBox.isChecked = todo.isComplete
         if (todo.isComplete) {
             createStrikeThrough()
         }
