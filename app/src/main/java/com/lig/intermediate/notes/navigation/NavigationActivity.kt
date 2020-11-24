@@ -9,9 +9,12 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.create.CreateActivity
+import com.lig.intermediate.notes.ui.notes.NotesFragment
 import com.lig.intermediate.notes.ui.task.TaskFragment
 
-class NavigationActivity : AppCompatActivity(), TaskFragment.TouchActionDelegate {
+class NavigationActivity : AppCompatActivity(), TaskFragment.TouchActionDelegate,
+    NotesFragment.NoteActionDelegate {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
@@ -28,12 +31,21 @@ class NavigationActivity : AppCompatActivity(), TaskFragment.TouchActionDelegate
 
     }
 
-    private fun goToCreateActivity(){
-        startActivity(Intent(this, CreateActivity::class.java))
+    private fun goToCreateActivity(fragmentValue: String){
+        // use apply to put extra is very quick
+        startActivity(Intent(this, CreateActivity::class.java).apply {
+          putExtra(FRAGEMENT_TYPE_KEY, fragmentValue)
+        })
     }
 
-    override fun onAddButtonClicked() {
-        goToCreateActivity()
+    override fun onAddButtonClicked(value: String) {
+        goToCreateActivity(value)
+    }
+
+    companion object{
+        const val FRAGEMENT_TYPE_KEY = "f_t_k"
+        const val FRAGEMENT_VALUE_NOTE = "f_v_n"
+        const val FRAGEMENT_VALUE_TASK = "f_v_t"
     }
 
 }

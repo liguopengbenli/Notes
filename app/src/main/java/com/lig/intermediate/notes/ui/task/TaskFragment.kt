@@ -51,7 +51,7 @@ class TaskFragment : Fragment() {
     }
 
     interface TouchActionDelegate {
-        fun onAddButtonClicked()
+        fun onAddButtonClicked(value: String)
     }
 
 }

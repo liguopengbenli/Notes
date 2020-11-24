@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.foundations.BaseRecycleAdapter
 import com.lig.intermediate.notes.models.Task
+import com.lig.intermediate.notes.navigation.NavigationActivity.Companion.FRAGEMENT_VALUE_TASK
 import com.lig.intermediate.notes.views.TaskView
 import kotlinx.android.synthetic.main.view_add_button.view.*
 
@@ -33,7 +34,7 @@ class TaskAdapter(
             view.buttonText.text = view.context.getString(R.string.add_button_task)
 
             view.setOnClickListener {
-                touchActionDelegate.onAddButtonClicked()
+                touchActionDelegate.onAddButtonClicked(FRAGEMENT_VALUE_TASK)
             }
         }
     }
