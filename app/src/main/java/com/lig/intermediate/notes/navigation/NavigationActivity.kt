@@ -1,5 +1,6 @@
 package com.lig.intermediate.notes.navigation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
@@ -7,8 +8,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.lig.intermediate.notes.R
+import com.lig.intermediate.notes.create.CreateActivity
+import com.lig.intermediate.notes.ui.task.TaskFragment
 
-class NavigationActivity : AppCompatActivity() {
+class NavigationActivity : AppCompatActivity(), TaskFragment.TouchActionDelegate {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
@@ -24,6 +27,15 @@ class NavigationActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navView, navController)
 
     }
+
+    private fun goToCreateActivity(){
+        startActivity(Intent(this, CreateActivity::class.java))
+    }
+
+    override fun onAddButtonClicked() {
+        goToCreateActivity()
+    }
+
 }
 
 

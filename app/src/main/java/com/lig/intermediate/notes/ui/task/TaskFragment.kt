@@ -1,5 +1,6 @@
 package com.lig.intermediate.notes.ui.task
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,21 @@ import kotlinx.android.synthetic.main.fragment_task.*
 
 class TaskFragment : Fragment() {
     private var TaskViewModel: TaskViewModel? = null
+    lateinit var touchActionDelegate: TouchActionDelegate
+
+    /**
+     * Called when a fragment is first attached to its context.
+     * {@link #onCreate(Bundle)} will be called after this.
+     */
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context?.let {
+            if(it is TouchActionDelegate){ // Navigation activity implement TouchActionDelegate, so its context will be
+                touchActionDelegate = it
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,8 +46,12 @@ class TaskFragment : Fragment() {
         val adapter = TaskAdapter(mutableListOf(
             Task("Testing 1", mutableListOf(Todo("test1", true), Todo("test2"))),
             Task("Testing 2")
-        ))
+        ), touchActionDelegate)
         taskRecycleView.adapter = adapter
+    }
+
+    interface TouchActionDelegate {
+        fun onAddButtonClicked()
     }
 
 }

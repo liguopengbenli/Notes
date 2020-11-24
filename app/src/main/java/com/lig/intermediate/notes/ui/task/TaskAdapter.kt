@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.view_add_button.view.*
 
 
 class TaskAdapter(
-    taskList: MutableList<Task> = mutableListOf()
+    taskList: MutableList<Task> = mutableListOf(),
+    val touchActionDelegate: TaskFragment.TouchActionDelegate
 ): BaseRecycleAdapter<Task>(taskList) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = if(viewType == TYPE_INFO){
@@ -26,10 +27,14 @@ class TaskAdapter(
             (view as TaskView).initView(data)
         }
     }
-
-    class AddButtonViewHolder(view: View): BaseRecycleAdapter.AddButtonViewHolder(view) {
+    // inner class to use the member variable
+    inner class AddButtonViewHolder(view: View): BaseRecycleAdapter.AddButtonViewHolder(view) {
         override fun onBind(data: Unit) {
             view.buttonText.text = view.context.getString(R.string.add_button_task)
+
+            view.setOnClickListener {
+                touchActionDelegate.onAddButtonClicked()
+            }
         }
     }
 
