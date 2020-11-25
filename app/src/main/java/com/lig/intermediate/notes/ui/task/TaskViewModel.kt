@@ -1,19 +1,25 @@
-package com.lig.intermediate.notes.ui.task;
+package com.lig.intermediate.notes.ui.task
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.lig.intermediate.notes.models.Task
+import com.lig.intermediate.notes.models.Todo
 
-public class TaskViewModel extends ViewModel {
+class TaskViewModel : ViewModel() {
+    private val mText: MutableLiveData<String>
+    val text: LiveData<String>
+        get() = mText
 
-    private MutableLiveData<String> mText;
-
-    public TaskViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is task fragment");
+    init {
+        mText = MutableLiveData()
+        mText.value = "This is task fragment"
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
+
+    fun getFakeData(): MutableList<Task> = mutableListOf(
+        Task("Testing 1", mutableListOf(Todo("test1", true), Todo("test2"))),
+        Task("Testing 2"),
+        Task("Testing three", mutableListOf(Todo("Test A"), Todo("TestB")))
+    )
 }

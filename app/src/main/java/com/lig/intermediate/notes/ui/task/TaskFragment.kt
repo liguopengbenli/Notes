@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.notes.R
@@ -15,7 +16,7 @@ import com.lig.intermediate.notes.models.Todo
 import kotlinx.android.synthetic.main.fragment_task.*
 
 class TaskFragment : Fragment() {
-    private var TaskViewModel: TaskViewModel? = null
+    lateinit var taskViewModel: TaskViewModel
     lateinit var touchActionDelegate: TouchActionDelegate
 
     /**
@@ -35,18 +36,21 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        TaskViewModel = TaskViewModel()
+
         val root = inflater.inflate(R.layout.fragment_task, container, false)
         return root
     }
 
+    private fun bindViewModel(){
+        taskViewModel = TaskViewModel()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bindViewModel()
+
         taskRecycleView.layoutManager = LinearLayoutManager(context)
-        val adapter = TaskAdapter(mutableListOf(
-            Task("Testing 1", mutableListOf(Todo("test1", true), Todo("test2"))),
-            Task("Testing 2")
-        ), touchActionDelegate)
+        val adapter = TaskAdapter(taskViewModel.getFakeData(), touchActionDelegate)
         taskRecycleView.adapter = adapter
     }
 

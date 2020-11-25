@@ -12,6 +12,14 @@ import com.lig.intermediate.notes.create.CreateActivity
 import com.lig.intermediate.notes.ui.notes.NotesFragment
 import com.lig.intermediate.notes.ui.task.TaskFragment
 
+/* MVVM architecture -> very useful for unit testing
+*  view: fragment+view  viewModel: Business Logic, livedata     Model:Injected
+*  liveData: view observing it will be notified when changed
+*  fragment observe livedata from viewmodel and forwards it to view
+*  The Model: Manipulate and retrive data
+*
+* */
+
 class NavigationActivity : AppCompatActivity(), TaskFragment.TouchActionDelegate,
     NotesFragment.NoteActionDelegate {
 

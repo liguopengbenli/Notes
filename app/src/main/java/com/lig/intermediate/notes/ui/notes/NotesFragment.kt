@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_notes.*
 
 // fragment is a portion of UI like sub activity and can be resued
 class NotesFragment : Fragment() {
-    private var notesViewModel: NotesViewModel? = null
+    lateinit var notesViewModel: NotesViewModel
     lateinit var noteActionDelegate: NoteActionDelegate
 
     /**
@@ -34,19 +34,19 @@ class NotesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        notesViewModel = NotesViewModel()
         val root = inflater.inflate(R.layout.fragment_notes, container, false)
         return root
     }
 
+    private fun bindViewModel(){
+        notesViewModel = NotesViewModel()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bindViewModel()
         noteRecycleView.layoutManager = LinearLayoutManager(context)
-        val adapter = NoteAdapter(mutableListOf(
-            Note("this is note 1 tesing"),
-            Note("This is note 2 testing"),
-            Note("this is note 3 tesing")
-        ), noteActionDelegate)
+        val adapter = NoteAdapter(notesViewModel.getFakeNote(), noteActionDelegate)
         noteRecycleView.adapter = adapter
     }
 
