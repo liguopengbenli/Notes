@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.lig.intermediate.notes.models.Note
 
 class NotesViewModel : ViewModel() {
-    private val mText: MutableLiveData<String>
-    val text: LiveData<String>
-        get() = mText
+    private val _noteListLiveData: MutableLiveData<List<Note>> = MutableLiveData()
+    val noteListLiveData: LiveData<List<Note>> = _noteListLiveData // cast mutable Livadata to Live data
 
     init {
-        mText = MutableLiveData()
-        mText.value = "This is Notes fragment"
+        _noteListLiveData.postValue(getFakeNote())
     }
 
     fun getFakeNote():MutableList<Note> = mutableListOf(

@@ -9,6 +9,12 @@ abstract class BaseRecycleAdapter<T>(
     protected val masterList: MutableList<T> = mutableListOf()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    fun updateList(list: List<T>){
+        masterList.clear()
+        masterList.addAll(list)
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is AddButtonViewHolder){
                holder.onBind(Unit)

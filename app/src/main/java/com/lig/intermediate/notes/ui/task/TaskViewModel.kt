@@ -7,20 +7,12 @@ import com.lig.intermediate.notes.models.Task
 import com.lig.intermediate.notes.models.Todo
 
 class TaskViewModel : ViewModel() {
-    private val mText: MutableLiveData<String>
     private val _taskListLiveData: MutableLiveData<MutableList<Task>> = MutableLiveData()
     val taskListLiveData: LiveData<MutableList<Task>> = _taskListLiveData // read only access, live data is not mutable
 
-
-    val text: LiveData<String>
-        get() = mText
-
     init {
-        mText = MutableLiveData()
-        mText.value = "This is task fragment"
         // _taskListLiveData.value = getFakeData() synchro not recommended
         _taskListLiveData.postValue(getFakeData()) // asynchrone
-
     }
 
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.models.Note
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_notes.*
 class NotesFragment : Fragment() {
     lateinit var notesViewModel: NotesViewModel
     lateinit var noteActionDelegate: NoteActionDelegate
+    lateinit var adapter: NoteAdapter
 
     /**
      * Called when a fragment is first attached to its context.
@@ -40,14 +42,17 @@ class NotesFragment : Fragment() {
 
     private fun bindViewModel(){
         notesViewModel = NotesViewModel()
+        notesViewModel.noteListLiveData.observe(viewLifecycleOwner, Observer{ noteList->
+            adapter.updateList(noteList)
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindViewModel()
         noteRecycleView.layoutManager = LinearLayoutManager(context)
-        val adapter = NoteAdapter(notesViewModel.getFakeNote(), noteActionDelegate)
+        adapter = NoteAdapter(noteActionDelegate= noteActionDelegate)
         noteRecycleView.adapter = adapter
+        bindViewModel()
     }
 
     interface NoteActionDelegate {
