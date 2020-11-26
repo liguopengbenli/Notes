@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.models.Note
 import com.lig.intermediate.notes.ui.task.TaskFragment
 import com.lig.intermediate.notes.ui.task.TaskListView
+import com.lig.intermediate.notes.ui.task.TaskViewModel
 import com.lig.intermediate.notes.views.NoteView
 import kotlinx.android.synthetic.main.fragment_notes.*
 
@@ -44,7 +46,8 @@ class NotesFragment : Fragment() {
     }
 
     private fun bindViewModel(){
-        notesViewModel = NotesViewModel()
+        notesViewModel = ViewModelProvider(this).get(NotesViewModel::class.java) // using this way for latter dependency testing propose
+        //notesViewModel = NotesViewModel()
         notesViewModel.noteListLiveData.observe(viewLifecycleOwner, Observer{ noteList->
             contentView.updateList(noteList)
         })

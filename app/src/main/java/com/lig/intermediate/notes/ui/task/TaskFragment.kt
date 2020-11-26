@@ -50,7 +50,8 @@ class TaskFragment : Fragment() {
     }
 
     private fun bindViewModel(){
-        taskViewModel = TaskViewModel()
+        taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        //taskViewModel = TaskViewModel()
         taskViewModel.taskListLiveData.observe(viewLifecycleOwner, Observer{taskList->
             contentView.updateList(taskList)
         })
