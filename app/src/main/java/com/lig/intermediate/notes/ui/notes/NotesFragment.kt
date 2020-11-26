@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.models.Note
 import com.lig.intermediate.notes.ui.task.TaskFragment
+import com.lig.intermediate.notes.ui.task.TaskListView
+import com.lig.intermediate.notes.views.NoteView
 import kotlinx.android.synthetic.main.fragment_notes.*
 
 // fragment is a portion of UI like sub activity and can be resued
 class NotesFragment : Fragment() {
     lateinit var notesViewModel: NotesViewModel
     lateinit var noteActionDelegate: NoteActionDelegate
-    lateinit var adapter: NoteAdapter
+    lateinit var contentView: NoteListView
 
     /**
      * Called when a fragment is first attached to its context.
@@ -36,23 +38,27 @@ class NotesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_notes, container, false)
-        return root
+        return inflater.inflate(R.layout.fragment_notes, container, false).apply {
+            contentView = (this as NoteListView)
+        }
     }
 
     private fun bindViewModel(){
         notesViewModel = NotesViewModel()
         notesViewModel.noteListLiveData.observe(viewLifecycleOwner, Observer{ noteList->
-            adapter.updateList(noteList)
+            contentView.updateList(noteList)
         })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        noteRecycleView.layoutManager = LinearLayoutManager(context)
-        adapter = NoteAdapter(noteActionDelegate= noteActionDelegate)
-        noteRecycleView.adapter = adapter
         bindViewModel()
+        setContentView()
+    }
+
+
+    private fun setContentView(){
+        contentView.initView(noteActionDelegate, notesViewModel)
     }
 
     interface NoteActionDelegate {
