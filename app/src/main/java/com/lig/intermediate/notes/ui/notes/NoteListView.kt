@@ -6,7 +6,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.notes.models.Note
 import kotlinx.android.synthetic.main.fragment_notes.view.*
-import kotlinx.android.synthetic.main.item_note.view.*
 
 class NoteListView @JvmOverloads constructor( // make sure work for java
     context: Context,
@@ -18,7 +17,10 @@ class NoteListView @JvmOverloads constructor( // make sure work for java
     private lateinit var noteActionDelegate: NotesFragment.NoteActionDelegate
     private lateinit var dataActionDelegate: NoteListViewContract
 
-    fun initView(noteActionDelegate: NotesFragment.NoteActionDelegate, daDelegate: NoteListViewContract) {
+    fun initView(
+        noteActionDelegate: NotesFragment.NoteActionDelegate,
+        daDelegate: NoteListViewContract
+    ) {
         this.noteActionDelegate = noteActionDelegate
         this.dataActionDelegate = daDelegate
         setUpView()
@@ -26,11 +28,11 @@ class NoteListView @JvmOverloads constructor( // make sure work for java
 
     private fun setUpView() {
         noteRecycleView.layoutManager = LinearLayoutManager(context)
-        adapter = NoteAdapter(noteActionDelegate= noteActionDelegate)
+        adapter = NoteAdapter(noteActionDelegate = noteActionDelegate)
         noteRecycleView.adapter = adapter
     }
 
-    fun updateList(list: List<Note>){
+    fun updateList(list: List<Note>) {
         adapter.updateList(list)
     }
 

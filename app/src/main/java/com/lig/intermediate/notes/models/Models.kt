@@ -5,7 +5,7 @@ package com.lig.intermediate.notes.models
 // predefine value to set defaut value // if using in java we have to add @JvmOverloads constructor
 
 data class Task @JvmOverloads constructor(
-    var title:String,
+    var title: String,
     val todos: MutableList<Todo> = mutableListOf(), // create defaut empty list
     val tag: Tag? = null
 )
@@ -21,6 +21,6 @@ data class Note(
 )
 
 data class Tag(
-    val name:String,
+    val name: String,
     val colorResId: Int
 )

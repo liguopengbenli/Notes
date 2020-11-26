@@ -17,23 +17,29 @@ class TaskListView @JvmOverloads constructor(
     private lateinit var touchActionDelegate: TaskFragment.TouchActionDelegate
     private lateinit var dataActionDelegate: TaskListViewContract
 
-    fun initView(taDelegate: TaskFragment.TouchActionDelegate, daDelegate: TaskListViewContract){
+    fun initView(taDelegate: TaskFragment.TouchActionDelegate, daDelegate: TaskListViewContract) {
         setDelegate(taDelegate, daDelegate)
         setUpView()
     }
 
-    private fun setDelegate(taDelegate: TaskFragment.TouchActionDelegate, daDelegate: TaskListViewContract){
+    private fun setDelegate(
+        taDelegate: TaskFragment.TouchActionDelegate,
+        daDelegate: TaskListViewContract
+    ) {
         touchActionDelegate = taDelegate
         dataActionDelegate = daDelegate
     }
 
     private fun setUpView() {
         taskRecycleView.layoutManager = LinearLayoutManager(context)
-        adapter = TaskAdapter(touchActionDelegate=touchActionDelegate, dataActionDelegate = dataActionDelegate) // Here we specify which argument is
+        adapter = TaskAdapter(
+            touchActionDelegate = touchActionDelegate,
+            dataActionDelegate = dataActionDelegate
+        ) // Here we specify which argument is
         taskRecycleView.adapter = adapter
     }
 
-    fun updateList(list: List<Task>){
+    fun updateList(list: List<Task>) {
         adapter.updateList(list)
     }
 

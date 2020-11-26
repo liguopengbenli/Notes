@@ -39,10 +39,10 @@ class NavigationActivity : AppCompatActivity(), TaskFragment.TouchActionDelegate
 
     }
 
-    private fun goToCreateActivity(fragmentValue: String){
+    private fun goToCreateActivity(fragmentValue: String) {
         // use apply to put extra is very quick
         startActivity(Intent(this, CreateActivity::class.java).apply {
-          putExtra(FRAGEMENT_TYPE_KEY, fragmentValue)
+            putExtra(FRAGEMENT_TYPE_KEY, fragmentValue)
         })
     }
 
@@ -50,15 +50,13 @@ class NavigationActivity : AppCompatActivity(), TaskFragment.TouchActionDelegate
         goToCreateActivity(value)
     }
 
-    companion object{
+    companion object {
         const val FRAGEMENT_TYPE_KEY = "f_t_k"
         const val FRAGEMENT_VALUE_NOTE = "f_v_n"
         const val FRAGEMENT_VALUE_TASK = "f_v_t"
     }
 
 }
-
-
 
 
 /* java call

@@ -18,19 +18,20 @@ class TaskView @JvmOverloads constructor( // make sure work for java
 
     lateinit var task: Task
 
-    fun initView(task: Task, todoCheckCallback: (Int, Boolean)-> Unit) {
+    fun initView(task: Task, todoCheckCallback: (Int, Boolean) -> Unit) {
         this.task = task
 
         item_task_title.text = task.title
         // for each view_todo we inflate a view and populate and attach to parent container todoContainer
-        task.todos.forEachIndexed {todoIndex, todo ->
-            val todoView =   (LayoutInflater.from(context).inflate(R.layout.view_todo, todoContainer, false) as TodoView ).apply {
-                initView(todo){ isChecked->
+        task.todos.forEachIndexed { todoIndex, todo ->
+            val todoView = (LayoutInflater.from(context)
+                .inflate(R.layout.view_todo, todoContainer, false) as TodoView).apply {
+                initView(todo) { isChecked ->
 
-                    todoCheckCallback.invoke(todoIndex,isChecked)
-                    if(isTaskComplete()){
+                    todoCheckCallback.invoke(todoIndex, isChecked)
+                    if (isTaskComplete()) {
                         createStrikeThrough()
-                    }else{
+                    } else {
                         removeStrikeThrough()
                     }
                 } // passing function as parameter
@@ -41,7 +42,8 @@ class TaskView @JvmOverloads constructor( // make sure work for java
         }
     }
 
-    fun isTaskComplete(): Boolean = task.todos.filter { !it.isComplete }.isEmpty() // filter literate all elements and check the condition
+    private fun isTaskComplete(): Boolean = task.todos.filter { !it.isComplete }
+        .isEmpty() // filter literate all elements and check the condition
 
 
     // Paints flags are like series of bits, put one bit to 1 using logic operation

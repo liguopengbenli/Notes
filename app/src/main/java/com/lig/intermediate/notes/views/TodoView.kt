@@ -3,11 +3,7 @@ package com.lig.intermediate.notes.views
 import android.content.Context
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.models.Todo
 import kotlinx.android.synthetic.main.view_todo.view.*
 

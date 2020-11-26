@@ -16,23 +16,29 @@ class TaskAdapter(
     taskList: MutableList<Task> = mutableListOf(),
     val touchActionDelegate: TaskFragment.TouchActionDelegate,
     val dataActionDelegate: TaskListViewContract
-): BaseRecycleAdapter<Task>(taskList) {
+) : BaseRecycleAdapter<Task>(taskList) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = if(viewType == TYPE_INFO){
-        TaskViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false))
-    } else {
-        AddButtonViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_add_button, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        if (viewType == TYPE_INFO) {
+            TaskViewHolder(
+                LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
+            )
+        } else {
+            AddButtonViewHolder(
+                LayoutInflater.from(parent.context).inflate(R.layout.view_add_button, parent, false)
+            )
+        }
 
-    inner class TaskViewHolder(view: View): BaseViewHolder<Task>(view){
+    inner class TaskViewHolder(view: View) : BaseViewHolder<Task>(view) {
         override fun onBind(data: Task, listIndex: Int) {
-            (view as TaskView).initView(data){ todoIndex, isChecked ->
+            (view as TaskView).initView(data) { todoIndex, isChecked ->
                 dataActionDelegate.onTodoUpdated(listIndex, todoIndex, isChecked)
             }
         }
     }
+
     // inner class to use the member variable
-    inner class AddButtonViewHolder(view: View): BaseRecycleAdapter.AddButtonViewHolder(view) {
+    inner class AddButtonViewHolder(view: View) : BaseRecycleAdapter.AddButtonViewHolder(view) {
         override fun onBind(data: Unit, listeIndex: Int) {
             view.buttonText.text = view.context.getString(R.string.add_button_task)
 

@@ -12,12 +12,11 @@ class CreateActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create)
 
         intent.getStringExtra(NavigationActivity.FRAGEMENT_TYPE_KEY).run {
-            textView.text = if(this == NavigationActivity.FRAGEMENT_VALUE_TASK){
+            textView.text = if (this == NavigationActivity.FRAGEMENT_VALUE_TASK) {
                 "This is a task"
-            } else if(this == NavigationActivity.FRAGEMENT_VALUE_NOTE)
-            {
+            } else if (this == NavigationActivity.FRAGEMENT_VALUE_NOTE) {
                 "This is Note"
-            }else {
+            } else {
                 "Something went wrong"
             }
         }

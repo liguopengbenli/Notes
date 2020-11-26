@@ -5,16 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.notes.R
-import com.lig.intermediate.notes.models.Task
-import com.lig.intermediate.notes.models.Todo
-import kotlinx.android.synthetic.main.fragment_task.*
 
 // fragement should be simple so we move code in view
 class TaskFragment : Fragment() {
@@ -29,7 +23,7 @@ class TaskFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         context?.let {
-            if(it is TouchActionDelegate){ // Navigation activity implement TouchActionDelegate, so its context will be
+            if (it is TouchActionDelegate) { // Navigation activity implement TouchActionDelegate, so its context will be
                 touchActionDelegate = it
             }
         }
@@ -40,19 +34,19 @@ class TaskFragment : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        return  inflater.inflate(R.layout.fragment_task, container, false).apply {
+        return inflater.inflate(R.layout.fragment_task, container, false).apply {
             contentView = (this as TaskListView)  // populate content view
         }
     }
 
-    private fun setContentView(){
+    private fun setContentView() {
         contentView.initView(touchActionDelegate, taskViewModel)
     }
 
-    private fun bindViewModel(){
+    private fun bindViewModel() {
         taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
         //taskViewModel = TaskViewModel()
-        taskViewModel.taskListLiveData.observe(viewLifecycleOwner, Observer{taskList->
+        taskViewModel.taskListLiveData.observe(viewLifecycleOwner, Observer { taskList ->
             contentView.updateList(taskList)
         })
     }
