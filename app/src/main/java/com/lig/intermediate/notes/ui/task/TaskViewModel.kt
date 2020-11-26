@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.lig.intermediate.notes.models.Task
 import com.lig.intermediate.notes.models.Todo
 
-class TaskViewModel : ViewModel() {
+class TaskViewModel : ViewModel(), TaskListViewContract {
     private val _taskListLiveData: MutableLiveData<MutableList<Task>> = MutableLiveData()
     val taskListLiveData: LiveData<MutableList<Task>> = _taskListLiveData // read only access, live data is not mutable
 
@@ -21,4 +21,10 @@ class TaskViewModel : ViewModel() {
         Task("Testing 2"),
         Task("Testing three", mutableListOf(Todo("Test A"), Todo("TestB")))
     )
+
+    override fun onTodoUpdated(taskIndex: Int, todoIndex: Int, isComplete: Boolean) {
+            _taskListLiveData.value?.get(taskIndex)?.todos?.get(todoIndex)?.isComplete = isComplete
+    }
+
+
 }

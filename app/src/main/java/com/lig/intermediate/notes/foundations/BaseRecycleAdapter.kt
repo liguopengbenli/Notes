@@ -9,7 +9,7 @@ abstract class BaseRecycleAdapter<T>(
     protected val masterList: MutableList<T> = mutableListOf()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    fun updateList(list: List<T>){
+    fun updateList(list: List<T>){  //update all the list not optimal
         masterList.clear()
         masterList.addAll(list)
         notifyDataSetChanged()
@@ -17,16 +17,16 @@ abstract class BaseRecycleAdapter<T>(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is AddButtonViewHolder){
-               holder.onBind(Unit)
+               holder.onBind(Unit, position - 1)
         }else {
-            (holder as BaseViewHolder<T>).onBind(masterList[position - 1])
+            (holder as BaseViewHolder<T>).onBind(masterList[position - 1], position - 1)
         }
     }
 
     override fun getItemCount(): Int  = masterList.size + 1 // position start with index 1
 
     abstract class BaseViewHolder<E>(val view: View): RecyclerView.ViewHolder(view){
-        abstract fun onBind(data: E)
+        abstract fun onBind(data: E, listIndex: Int)
     }
 
     abstract class AddButtonViewHolder(view: View): BaseViewHolder<Unit>(view)
