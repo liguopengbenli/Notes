@@ -17,7 +17,7 @@ class TodoView @JvmOverloads constructor( // make sure work for java
         descriptionView.text = todo.description
         completeCheckBox.isChecked = todo.isComplete
         if (todo.isComplete) {
-            createStrikeThrough()
+            descriptionView.setStrikeThrough()
         }
         setUpCheckStateListener(todo, callback)
     }
@@ -29,23 +29,11 @@ class TodoView @JvmOverloads constructor( // make sure work for java
             todo.isComplete = isCheck
             callback?.invoke(isCheck) // if the callback is null will not trigger this
             if (isCheck) {
-                createStrikeThrough()
+                descriptionView.setStrikeThrough()
             } else {
-                removeStrikeThrough()
+                descriptionView.removeStrikeThrough()
             }
         }
     }
 
-    // Paints flags are like series of bits, put one bit to 1 using logic operation
-    private fun createStrikeThrough() {
-        descriptionView.apply {
-            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }
-    }
-
-    private fun removeStrikeThrough() {
-        descriptionView.apply {
-            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-        }
-    }
 }

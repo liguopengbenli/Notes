@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
+import kotlinx.android.synthetic.main.view_todo.view.*
 
 
 class TaskView @JvmOverloads constructor( // make sure work for java
@@ -30,9 +31,9 @@ class TaskView @JvmOverloads constructor( // make sure work for java
 
                     todoCheckCallback.invoke(todoIndex, isChecked)
                     if (isTaskComplete()) {
-                        createStrikeThrough()
+                        this@TaskView.item_task_title.setStrikeThrough()
                     } else {
-                        removeStrikeThrough()
+                        this@TaskView.item_task_title.removeStrikeThrough()
                     }
                 } // passing function as parameter
             }
@@ -42,21 +43,10 @@ class TaskView @JvmOverloads constructor( // make sure work for java
         }
     }
 
-    private fun isTaskComplete(): Boolean = task.todos.filter { !it.isComplete }
-        .isEmpty() // filter literate all elements and check the condition
+    private fun isTaskComplete(): Boolean = task.todos.filter { !it.isComplete }.isEmpty()
+    // filter literate all elements and check the condition
 
 
-    // Paints flags are like series of bits, put one bit to 1 using logic operation
-    private fun createStrikeThrough() {
-        item_task_title.apply {
-            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }
-    }
 
-    private fun removeStrikeThrough() {
-        item_task_title.apply {
-            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-        }
-    }
 
 }
