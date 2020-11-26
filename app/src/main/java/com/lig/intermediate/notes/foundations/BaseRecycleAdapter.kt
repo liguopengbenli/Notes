@@ -1,6 +1,7 @@
 package com.lig.intermediate.notes.foundations
 
 import android.view.View
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 // use generic to get any type of data
@@ -8,10 +9,12 @@ abstract class BaseRecycleAdapter<T>(
     protected val masterList: MutableList<T> = mutableListOf()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    fun updateList(list: List<T>) {  //update all the list not optimal
+    fun updateList(list: List<T>) {
+        val result = DiffUtil.calculateDiff(DiffUtilCallbackImpl<T>(masterList, list))
         masterList.clear()
         masterList.addAll(list)
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
+        result.dispatchUpdatesTo(this) // //update all the list not optimal, Use diffUtil to update partially
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -40,6 +43,20 @@ abstract class BaseRecycleAdapter<T>(
     companion object {
         const val TYPE_ADD_BUTTON = 0
         const val TYPE_INFO = 1
+    }
+
+/**
+ * DiffUtil is a utility class that calculates the difference between two lists and outputs a
+ * list of update operations that converts the first list into the second one.*/
+
+    class DiffUtilCallbackImpl<T>(val oldList: List<T>, val newList: List<T>): DiffUtil.Callback(){
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = oldList[oldItemPosition] == newList[newItemPosition] // the id but we don't have here
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = oldList[oldItemPosition] == newList[newItemPosition]
     }
 
 }

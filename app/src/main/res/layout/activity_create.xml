@@ -11,6 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/item_margin_small"
+        android:layout_marginTop="@dimen/item_margin_small"
         tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="19dp" />
+        tools:layout_editor_absoluteY="19dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
