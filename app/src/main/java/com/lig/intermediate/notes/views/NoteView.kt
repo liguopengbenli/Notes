@@ -15,4 +15,6 @@ class NoteView @JvmOverloads constructor( // make sure work for java
     fun initView(note: Note) {
         item_note_text.text = note.description
     }
+
+
 }

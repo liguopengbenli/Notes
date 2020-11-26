@@ -18,14 +18,16 @@ class TaskView @JvmOverloads constructor( // make sure work for java
 
     lateinit var task: Task
 
-    fun initView(task: Task) {
+    fun initView(task: Task, todoCheckCallback: (Int, Boolean)-> Unit) {
         this.task = task
 
         item_task_title.text = task.title
         // for each view_todo we inflate a view and populate and attach to parent container todoContainer
-        task.todos.forEach {todo ->
+        task.todos.forEachIndexed {todoIndex, todo ->
             val todoView =   (LayoutInflater.from(context).inflate(R.layout.view_todo, todoContainer, false) as TodoView ).apply {
-                initView(todo){
+                initView(todo){ isChecked->
+
+                    todoCheckCallback.invoke(todoIndex,isChecked)
                     if(isTaskComplete()){
                         createStrikeThrough()
                     }else{

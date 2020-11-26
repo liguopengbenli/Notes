@@ -16,10 +16,11 @@ import com.lig.intermediate.notes.models.Task
 import com.lig.intermediate.notes.models.Todo
 import kotlinx.android.synthetic.main.fragment_task.*
 
+// fragement should be simple so we move code in view
 class TaskFragment : Fragment() {
     lateinit var taskViewModel: TaskViewModel
     lateinit var touchActionDelegate: TouchActionDelegate
-    lateinit var adapter: TaskAdapter
+    lateinit var contentView: TaskListView
 
     /**
      * Called when a fragment is first attached to its context.
@@ -39,24 +40,26 @@ class TaskFragment : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        val root = inflater.inflate(R.layout.fragment_task, container, false)
-        return root
+        return  inflater.inflate(R.layout.fragment_task, container, false).apply {
+            contentView = (this as TaskListView)  // populate content view
+        }
+    }
+
+    private fun setContentView(){
+        contentView.initView(touchActionDelegate, taskViewModel)
     }
 
     private fun bindViewModel(){
         taskViewModel = TaskViewModel()
         taskViewModel.taskListLiveData.observe(viewLifecycleOwner, Observer{taskList->
-            adapter.updateList(taskList)
+            contentView.updateList(taskList)
         })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        taskRecycleView.layoutManager = LinearLayoutManager(context)
-        adapter = TaskAdapter(touchActionDelegate=touchActionDelegate) // Here we specify which argument is
-        taskRecycleView.adapter = adapter
         bindViewModel()
+        setContentView()
     }
 
     interface TouchActionDelegate {
