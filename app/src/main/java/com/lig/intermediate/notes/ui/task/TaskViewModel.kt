@@ -14,14 +14,14 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
         _taskListLiveData // read only access, live data is not mutable
     //private val model: TaskModel = TaskModel()
     @Inject
-    lateinit var model: TaskModel
+    lateinit var localModel: ITaskModel
 
     init {
         val scope: Scope = Toothpick.openScope("FirstScope")
         Toothpick.inject(this@TaskViewModel, scope)
 
         // _taskListLiveData.value = getFakeData() synchro not recommended
-        _taskListLiveData.postValue(model.getFakeData()) // asynchrone
+        _taskListLiveData.postValue(localModel.getFakeData()) // asynchrone
     }
 
 
