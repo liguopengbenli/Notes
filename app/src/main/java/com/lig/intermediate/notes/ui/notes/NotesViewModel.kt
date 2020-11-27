@@ -14,12 +14,12 @@ class NotesViewModel : ViewModel(), NoteListViewContract {
         _noteListLiveData // cast mutable Livadata to Live data
 
     @Inject
-    lateinit var model: NoteModel
+    lateinit var localModel: NoteLocalModel
 
     init {
         val scope = Toothpick.openScope(this)// any scope name here is class name?
         Toothpick.inject(this@NotesViewModel, scope)
-        _noteListLiveData.postValue(model.getFakeNote())
+        _noteListLiveData.postValue(localModel.getFakeNote())
     }
 
 
