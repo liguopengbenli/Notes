@@ -3,6 +3,7 @@ package com.lig.intermediate.notes.ui.task
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lig.intermediate.notes.foundations.ApplicationScope
 import com.lig.intermediate.notes.models.Task
 import toothpick.Scope
 import toothpick.Toothpick
@@ -18,13 +19,8 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
     lateinit var localModel: ITaskModel
 
     init {
-        val scope: Scope = Toothpick.openScope("FirstScope")
-        scope.installModules(
-            Module().apply {
-            bind(ITaskModel::class.java).toInstance(TaskLocalModel()) //To specify what we bind with interface : local, remote, ...
-        })
 
-        Toothpick.inject(this@TaskViewModel, scope)
+        Toothpick.inject(this@TaskViewModel, ApplicationScope.scope)
 
         // _taskListLiveData.value = getFakeData() synchro not recommended
         _taskListLiveData.postValue(localModel.getFakeData()) // asynchrone
