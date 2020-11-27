@@ -2,8 +2,10 @@ package com.lig.intermediate.notes.ui.task
 
 import com.lig.intermediate.notes.models.Task
 import com.lig.intermediate.notes.models.Todo
+import javax.inject.Inject
 
-class TaskModel {
+class TaskModel @Inject constructor() {
+
     fun getFakeData(): MutableList<Task> = mutableListOf(
         Task("Testing 1", mutableListOf(Todo("test1", true), Todo("test2"))),
         Task("Testing 2"),
