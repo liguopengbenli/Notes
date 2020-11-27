@@ -19,16 +19,43 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
     lateinit var localModel: ITaskModel
 
     init {
-
-        Toothpick.inject(this@TaskViewModel, ApplicationScope.scope)
-
+        val taskViewModelScope = Toothpick.openScopes(ApplicationScope.scope, this)
+        taskViewModelScope.installModules(
+            Module().apply {
+                bind(ITaskModel::class.java).toInstance(TestModel()) // Here is override binding
+            }
+        )
+        Toothpick.inject(this@TaskViewModel, taskViewModelScope)
         // _taskListLiveData.value = getFakeData() synchro not recommended
         _taskListLiveData.postValue(localModel.getFakeData()) // asynchrone
     }
 
-
     override fun onTodoUpdated(taskIndex: Int, todoIndex: Int, isComplete: Boolean) {
         _taskListLiveData.value?.get(taskIndex)?.todos?.get(todoIndex)?.isComplete = isComplete
+    }
+
+    class TestModel: ITaskModel{
+        override fun addTask(task: Task, callback: SuccessCallback) {
+            TODO("Not yet implemented")
+        }
+
+        override fun updateTask(task: Task, callback: SuccessCallback) {
+            TODO("Not yet implemented")
+        }
+
+        override fun deleteTask(task: Task, callback: SuccessCallback) {
+            TODO("Not yet implemented")
+        }
+
+        override fun retrieveTasks(): List<Task> {
+            TODO("Not yet implemented")
+        }
+
+        override fun getFakeData(): MutableList<Task> = mutableListOf(
+            Task("Test Model Task!")
+        )
+
+
     }
 
 
