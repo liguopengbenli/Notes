@@ -13,5 +13,6 @@ interface INoteModel {
     fun updateNote(note:Note, callback: SuccessCallback)
     fun deleteNote(note:Note, callback: SuccessCallback)
     fun retrieveNotes(): List<Note>
+    fun getFakeNote(): MutableList<Note>
 
 }
