@@ -38,7 +38,7 @@ class CreateActivity : AppCompatActivity() {
         when(item?.itemId){
             R.id.saveItem -> Toast.makeText(this, "saveClicked", Toast.LENGTH_SHORT).show()
         }
-        
+
         return super.onOptionsItemSelected(item)
     }
 
