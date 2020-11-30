@@ -8,5 +8,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_task">Tasks</string>
     <string name="title_note">Notes</string>
+    <string name="save">SAVE</string>
 
 </resources>
