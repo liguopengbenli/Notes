@@ -7,6 +7,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:src="@drawable/ic_plus"
         android:id="@+id/imageView"
         android:layout_width="@dimen/icon_img_size"
         android:layout_height="@dimen/icon_img_size"

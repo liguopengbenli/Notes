@@ -12,4 +12,5 @@
     <string name="hint_add_task">Add new task &#8230;</string>
     <string name="hint_add_todo">Add new todo &#8230;</string>
     <string name="hint_add_note">Add new note &#8230;</string>
+    <string name="toast_error_saving">Error! Could not save!</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.lig.intermediate.notes.ui.task
 
+import android.util.Log
 import com.lig.intermediate.notes.models.Task
 import com.lig.intermediate.notes.models.Todo
 import javax.inject.Inject
@@ -13,12 +14,14 @@ class TaskLocalModel @Inject constructor(): ITaskModel {
     )
 
     override fun addTask(task: Task, callback: SuccessCallback) {
-        TODO("Not yet implemented")
+        Log.d("TaskLocalModel", task.toString())
+        callback.invoke(true)
     }
 
     override fun updateTask(task: Task, callback: SuccessCallback) {
         TODO("Not yet implemented")
-    }
+    }    lateinit var model: TaskLocalModel
+
 
     override fun deleteTask(task: Task, callback: SuccessCallback) {
         TODO("Not yet implemented")
