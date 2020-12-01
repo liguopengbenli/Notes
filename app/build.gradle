@@ -50,5 +50,9 @@ dependencies {
     implementation "com.github.stephanenicolas.toothpick:ktp:$toothpick_version"
     kapt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpick_version"
     testImplementation "com.github.stephanenicolas.toothpick:toothpick-testing-junit5:$toothpick_version"
+    //Room lib
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
 }
