@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.core.view.size
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.foundations.ApplicationScope
+import com.lig.intermediate.notes.foundations.NullFieldChecker
 import com.lig.intermediate.notes.foundations.StateChangeTextWatcher
 import com.lig.intermediate.notes.models.Task
 import com.lig.intermediate.notes.models.Todo
@@ -122,7 +123,8 @@ class CreateTaskFragment : Fragment() {
         }
     }
 
-    private fun canAddTodo():Boolean = containerView.childCount < MAX_TODO_COUNT + 1
+    private fun canAddTodo():Boolean = containerView.childCount < MAX_TODO_COUNT + 1 &&
+            !(containerView.getChildAt(containerView.childCount-1) as NullFieldChecker).hasNullField() // if last item null don't add new item
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
