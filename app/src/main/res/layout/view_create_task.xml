@@ -8,9 +8,9 @@
     >
 
     <EditText
+        android:id="@+id/taskEditTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/taskEditTask"
         android:inputType="textLongMessage"
         android:background="@color/transparent"
         android:hint="@string/hint_add_task"

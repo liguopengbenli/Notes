@@ -1,5 +1,6 @@
 package com.lig.intermediate.notes.ui.notes
 
+import android.util.Log
 import com.lig.intermediate.notes.models.Note
 import javax.inject.Inject
 
@@ -12,7 +13,8 @@ class NoteLocalModel @Inject constructor() : INoteModel {
     )
 
     override fun addNote(note: Note, callback: SuccessCallback) {
-        TODO("Not yet implemented")
+        Log.d("NoteLocalModel", note.toString())
+        callback.invoke(true)
     }
 
     override fun updateNote(note: Note, callback: SuccessCallback) {
