@@ -1,10 +1,15 @@
 package com.lig.intermediate.notes.ui.notes
 
 import android.util.Log
+import com.lig.intermediate.notes.application.NoteApplication
+import com.lig.intermediate.notes.database.RoomDataBaseClient
 import com.lig.intermediate.notes.models.Note
 import javax.inject.Inject
 
 class NoteLocalModel @Inject constructor() : INoteModel {
+
+    private var databaseClient: RoomDataBaseClient = RoomDataBaseClient.getInstance(NoteApplication.instance.applicationContext)
+
 
     override fun getFakeNote(): MutableList<Note> = mutableListOf(
         Note("this is note 1 tesing"),
