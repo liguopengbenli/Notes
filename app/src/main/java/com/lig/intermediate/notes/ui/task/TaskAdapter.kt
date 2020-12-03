@@ -37,7 +37,7 @@ class TaskAdapter(
                     dataActionDelegate.onTodoUpdated(listIndex, todoIndex, isChecked)
                 },
                 deleteCallback = {
-                    dataActionDelegate.onTaskDeleted(listIndex)
+                    dataActionDelegate.onTaskDeleted(listIndex)  // when button is clicked trigger to update view
                 }
             )
         }
