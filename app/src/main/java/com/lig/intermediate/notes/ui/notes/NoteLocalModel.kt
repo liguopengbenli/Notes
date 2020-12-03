@@ -13,16 +13,10 @@ class NoteLocalModel @Inject constructor() : INoteModel {
 
     private var databaseClient: RoomDataBaseClient = RoomDataBaseClient.getInstance(NoteApplication.instance.applicationContext)
 
-
-//        mutableListOf(
-//        Note(description = "this is note 1 tesing"),
-//        Note(description="This is note 2 testing"),
-//        Note(description="this is note 3 tesing")
-//    )
-
-    private fun performOperationWithTimeout(function:()->Unit, callback: SuccessCallback) {
-        GlobalScope.launch {
-                val job = async {
+    private suspend fun performOperationWithTimeout(function:()->Unit, callback: SuccessCallback) {
+       // Dispatchers default Coroutine
+        //GlobalScope.launch {
+                val job = GlobalScope.async {
                     try {
                             // this is specify function to define timeout
                             withTimeout(TIME_OUT){
@@ -35,41 +29,39 @@ class NoteLocalModel @Inject constructor() : INoteModel {
             }
             job.await()
             callback.invoke(true) // We only invoke true when the job is completed done
-        }
     }
 
-    override fun addNote(note: Note, callback: SuccessCallback) {
+    override suspend fun addNote(note: Note, callback: SuccessCallback) {
         performOperationWithTimeout(
             { databaseClient.noteDao().addNote(note)},
             callback
         )
     }
 
-    override fun updateNote(note: Note, callback: SuccessCallback) {
+    override suspend fun updateNote(note: Note, callback: SuccessCallback) {
         performOperationWithTimeout(
             {databaseClient.noteDao().updateNote(note)},
             callback
         )
     }
 
-    override fun deleteNote(note: Note, callback: SuccessCallback) {
+    override suspend fun deleteNote(note: Note, callback: SuccessCallback) {
         performOperationWithTimeout(
             {databaseClient.noteDao().deleteNote(note)},
             callback
         )
     }
 
-    override fun retrieveNotes(callback: (List<Note>?)->Unit )
+    override suspend fun retrieveNotes(callback: (List<Note>?)->Unit )
     {
-        GlobalScope.launch {
-            val job = async {
+
+            val job = GlobalScope.async {
                 withTimeoutOrNull(TIME_OUT){
                     databaseClient.noteDao().retriveNotes()
                 }
             }
             // Here job will return a nullable list of note
             callback.invoke(job.await())
-        }
     }
 
 

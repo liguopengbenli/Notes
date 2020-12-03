@@ -9,8 +9,8 @@ interface INoteModel {
 
     //Create Rtrive Update Delive CRUD
     // fun addNote(note:Note, callback:(Boolean)->Unit)
-    fun addNote(note:Note, callback: SuccessCallback)
-    fun updateNote(note:Note, callback: SuccessCallback)
-    fun deleteNote(note:Note, callback: SuccessCallback)
-    fun retrieveNotes(callback: (List<Note>?)->Unit )
+    suspend fun addNote(note:Note, callback: SuccessCallback)
+    suspend fun updateNote(note:Note, callback: SuccessCallback)
+    suspend fun deleteNote(note:Note, callback: SuccessCallback)
+    suspend fun retrieveNotes(callback: (List<Note>?)->Unit )
 }

@@ -1,10 +1,13 @@
 package com.lig.intermediate.notes.ui.task
 
+import android.telephony.gsm.GsmCellLocation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lig.intermediate.notes.foundations.ApplicationScope
 import com.lig.intermediate.notes.models.Task
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import toothpick.Scope
 import toothpick.Toothpick
 import toothpick.config.Module
@@ -26,33 +29,39 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
     }
 
     override fun onTodoUpdated(taskIndex: Int, todoIndex: Int, isComplete: Boolean) {
-        _taskListLiveData.value?.let {
-            val todo = it[taskIndex].todos[todoIndex]
-            todo.apply {
-                this.isComplete = isComplete        // we have to be explicit here
-                this.taskId = it[taskIndex].uid
-            }
-            localModel.updateTodo(todo){
-                loadData()
+        GlobalScope.launch {
+            _taskListLiveData.value?.let {
+                val todo = it[taskIndex].todos[todoIndex]
+                todo.apply {
+                    this.isComplete = isComplete        // we have to be explicit here
+                    this.taskId = it[taskIndex].uid
+                }
+                localModel.updateTodo(todo){
+                    loadData()
+                }
             }
         }
-        _taskListLiveData.value?.get(taskIndex)?.todos?.get(todoIndex)?.isComplete = isComplete
     }
 
     override fun onTaskDeleted(taskIndex: Int) {
-        _taskListLiveData.value?.let {
-            localModel.deleteTask(it[taskIndex]){
-                loadData()
+        GlobalScope.launch {
+            _taskListLiveData.value?.let {
+                localModel.deleteTask(it[taskIndex]){
+                    loadData()
+                }
             }
         }
+
     }
 
     fun loadData(){
-        localModel.retrieveTasks {nullableList->
-            nullableList?.let {
-                _taskListLiveData.postValue(it.toMutableList()) // asynchrone
-            }
+        GlobalScope.launch {
+            localModel.retrieveTasks {nullableList->
+                nullableList?.let {
+                    _taskListLiveData.postValue(it.toMutableList()) // asynchrone
+                }
 
+            }
         }
     }
 
