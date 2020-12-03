@@ -22,12 +22,37 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
 
         Toothpick.inject(this@TaskViewModel, ApplicationScope.scope)
         // _taskListLiveData.value = getFakeData() synchro not recommended
-        _taskListLiveData.postValue(localModel.getFakeData()) // asynchrone
+       loadData()
     }
 
     override fun onTodoUpdated(taskIndex: Int, todoIndex: Int, isComplete: Boolean) {
+        _taskListLiveData.value?.let {
+            val todo = it[taskIndex].todos[todoIndex]
+            todo.apply {
+                this.isComplete = isComplete        // we have to be explicit here
+                this.taskId = it[taskIndex].uid
+            }
+            localModel.updateTodo(todo){
+                loadData()
+            }
+        }
         _taskListLiveData.value?.get(taskIndex)?.todos?.get(todoIndex)?.isComplete = isComplete
     }
+
+    override fun onTaskDeleted(taskIndex: Int) {
+        _taskListLiveData.value?.let {
+            localModel.deleteTask(it[taskIndex]){
+                loadData()
+            }
+        }
+    }
+
+    fun loadData(){
+        _taskListLiveData.postValue(localModel.retrieveTasks().toMutableList()) // asynchrone
+    }
+
+
+
 
 }
 

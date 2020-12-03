@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.view_add_button.view.*
 
 class NoteAdapter(
     noteList: MutableList<Note> = mutableListOf(),
-    val noteActionDelegate: NotesFragment.NoteActionDelegate
+    val noteActionDelegate: NotesFragment.NoteActionDelegate,
+    val dataActionDelegate: NoteListViewContract
 ) : BaseRecycleAdapter<Note>(noteList) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -27,9 +28,11 @@ class NoteAdapter(
             )
         }
 
-    class NoteViewHolder(view: View) : BaseViewHolder<Note>(view) {
+    inner class NoteViewHolder(view: View) : BaseViewHolder<Note>(view) {
         override fun onBind(data: Note, listIndex: Int) {
-            (view as NoteView).initView(data)
+            (view as NoteView).initView(data){
+                dataActionDelegate.onDeleteNote(masterList[listIndex]) // only trigger when click delete button
+            }
         }
     }
 

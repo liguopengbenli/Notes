@@ -28,7 +28,7 @@ class NoteListView @JvmOverloads constructor( // make sure work for java
 
     private fun setUpView() {
         noteRecycleView.layoutManager = LinearLayoutManager(context)
-        adapter = NoteAdapter(noteActionDelegate = noteActionDelegate)
+        adapter = NoteAdapter(noteActionDelegate = noteActionDelegate, dataActionDelegate = dataActionDelegate)
         noteRecycleView.adapter = adapter
     }
 

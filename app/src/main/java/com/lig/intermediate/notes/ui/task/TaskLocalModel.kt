@@ -11,27 +11,38 @@ class TaskLocalModel @Inject constructor(): ITaskModel {
 
     private var databaseClient: RoomDataBaseClient = RoomDataBaseClient.getInstance(NoteApplication.instance.applicationContext)
 
-    override fun getFakeData(): MutableList<Task> = mutableListOf(
-        Task("Testing 1", mutableListOf(Todo(description = "test1", isComplete = true), Todo(description="test2"))),
-        Task("Testing 2"),
-        Task("Testing three", mutableListOf(Todo(description = "Test A"), Todo(description="TestB")))
-    )
+
+    override fun getFakeData(): MutableList<Task> = retrieveTasks().toMutableList()
 
     override fun addTask(task: Task, callback: SuccessCallback) {
-        Log.d("TaskLocalModel", task.toString())
+        databaseClient.taskDao().addTask(task)
+        addTodoInTask(task)
         callback.invoke(true)
+
     }
 
     override fun updateTask(task: Task, callback: SuccessCallback) {
-        TODO("Not yet implemented")
-    }    lateinit var model: TaskLocalModel
+        databaseClient.taskDao().updateTask(task)
+        callback.invoke(true)
+    }
+
+    override fun updateTodo(todo: Todo, callback: SuccessCallback) {
+       databaseClient.taskDao().updateTodo(todo)
+        callback.invoke(true)
+    }
 
 
     override fun deleteTask(task: Task, callback: SuccessCallback) {
-        TODO("Not yet implemented")
+        databaseClient.taskDao().deleteTask(task)
+        callback.invoke(true)
     }
 
-    override fun retrieveTasks(): List<Task> {
-        TODO("Not yet implemented")
+    private fun addTodoInTask(task: Task){ // we have to save to do in db and @ will fix the fusion
+        task.todos.forEach {
+            todo -> databaseClient.taskDao().addTodo(todo)
+        }
     }
+
+    override fun retrieveTasks(): List<Task>  = databaseClient.taskDao().retrieveTask()
+
 }

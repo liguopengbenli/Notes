@@ -8,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.lig.intermediate.notes.R
 import com.lig.intermediate.notes.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
-import kotlinx.android.synthetic.main.view_todo.view.*
 
 
 class TaskView @JvmOverloads constructor( // make sure work for java
@@ -19,10 +18,13 @@ class TaskView @JvmOverloads constructor( // make sure work for java
 
     lateinit var task: Task
 
-    fun initView(task: Task, todoCheckCallback: (Int, Boolean) -> Unit) {
+    fun initView(task: Task, todoCheckCallback: (Int, Boolean) -> Unit, deleteCallback: () -> Unit) {
         this.task = task
 
         item_task_title.text = task.title
+        imageButton.setOnClickListener {
+            deleteCallback.invoke()
+        }
         // for each view_todo we inflate a view and populate and attach to parent container todoContainer
         task.todos.forEachIndexed { todoIndex, todo ->
             val todoView = (LayoutInflater.from(context)

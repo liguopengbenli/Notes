@@ -31,9 +31,15 @@ class TaskAdapter(
 
     inner class TaskViewHolder(view: View) : BaseViewHolder<Task>(view) {
         override fun onBind(data: Task, listIndex: Int) {
-            (view as TaskView).initView(data) { todoIndex, isChecked ->
-                dataActionDelegate.onTodoUpdated(listIndex, todoIndex, isChecked)
-            }
+            (view as TaskView).initView(
+                data,
+                todoCheckCallback = { todoIndex, isChecked ->
+                    dataActionDelegate.onTodoUpdated(listIndex, todoIndex, isChecked)
+                },
+                deleteCallback = {
+                    dataActionDelegate.onTaskDeleted(listIndex)
+                }
+            )
         }
     }
 
