@@ -11,9 +11,21 @@ import java.util.*
 
 class Task @JvmOverloads constructor(
     title: String,
-    val todos: MutableList<Todo> = mutableListOf(), // create defaut empty list
+    @Relation(
+        parentColumn = "uid",
+        entityColumn = "taskId",
+        entity = Todo::class
+    )
+    val todos: MutableList<Todo> = mutableListOf(), // create default empty list
     tag: Tag? = null
 ) : TaskEntity(title = title, tag = tag)
+{
+    init {
+        todos.forEach {
+            it.taskId = uid
+        }
+    }
+}
 
 
 
@@ -33,11 +45,11 @@ data class Todo(
     var uid:Int = 0,
     @ForeignKey(                  //for join
         parentColumns = ["uid"],
-        childColumns = ["taskKey"],
+        childColumns = ["taskId"],
         entity = TaskEntity::class,
         onDelete = CASCADE   // it will delete to do when the task is deleted
     )
-    var taskKey:Long? = null,  // = uid of TaskEntity for making join
+    var taskId:Long? = null,  // = uid of TaskEntity for making join
     @ColumnInfo
     var description: String,
     @ColumnInfo

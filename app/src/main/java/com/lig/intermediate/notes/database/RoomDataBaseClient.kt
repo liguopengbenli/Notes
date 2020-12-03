@@ -4,11 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.lig.intermediate.notes.models.*
 
 const val DATABASE_VERSION = 1
 const val DB_NAME = "local_db"
 
-@Database(entities = [], version = DATABASE_VERSION)
+@Database(entities = [TaskEntity::class, Todo::class, Tag::class, Note::class], version = DATABASE_VERSION)
 abstract class RoomDataBaseClient: RoomDatabase() {
     companion object{
 
