@@ -12,9 +12,9 @@ class TaskLocalModel @Inject constructor(): ITaskModel {
     private var databaseClient: RoomDataBaseClient = RoomDataBaseClient.getInstance(NoteApplication.instance.applicationContext)
 
     override fun getFakeData(): MutableList<Task> = mutableListOf(
-        Task("Testing 1", mutableListOf(Todo("test1", true), Todo("test2"))),
+        Task("Testing 1", mutableListOf(Todo(description = "test1", isComplete = true), Todo(description="test2"))),
         Task("Testing 2"),
-        Task("Testing three", mutableListOf(Todo("Test A"), Todo("TestB")))
+        Task("Testing three", mutableListOf(Todo(description = "Test A"), Todo(description="TestB")))
     )
 
     override fun addTask(task: Task, callback: SuccessCallback) {

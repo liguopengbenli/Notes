@@ -11,6 +11,9 @@ const val DB_NAME = "local_db"
 
 @Database(entities = [TaskEntity::class, Todo::class, Tag::class, Note::class], version = DATABASE_VERSION)
 abstract class RoomDataBaseClient: RoomDatabase() {
+    abstract fun noteDao(): NoteDAO  // it has to be abstract fun convention
+    abstract fun taskDao(): TaskDAO
+
     companion object{
 
         private var instance: RoomDataBaseClient? = null  // create a singleton
@@ -22,8 +25,11 @@ abstract class RoomDataBaseClient: RoomDatabase() {
             return instance!!
         }
 
+        //Use coroutine to move main thread quary
         private fun createDataBase(context: Context): RoomDataBaseClient {
-            return Room.databaseBuilder(context, RoomDataBaseClient::class.java, DB_NAME).build()
+            return Room.databaseBuilder(context, RoomDataBaseClient::class.java, DB_NAME)
+                .allowMainThreadQueries() // override the right to use in main thread
+                .build()
         }
     }
 
