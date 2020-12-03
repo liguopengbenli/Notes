@@ -48,7 +48,12 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
     }
 
     fun loadData(){
-        _taskListLiveData.postValue(localModel.retrieveTasks().toMutableList()) // asynchrone
+        localModel.retrieveTasks {nullableList->
+            nullableList?.let {
+                _taskListLiveData.postValue(it.toMutableList()) // asynchrone
+            }
+
+        }
     }
 
 }

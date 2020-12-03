@@ -28,7 +28,7 @@ abstract class RoomDataBaseClient: RoomDatabase() {
         //Use coroutine to move main thread quary
         private fun createDataBase(context: Context): RoomDataBaseClient {
             return Room.databaseBuilder(context, RoomDataBaseClient::class.java, DB_NAME)
-                .allowMainThreadQueries() // override the right to use in main thread
+                //.allowMainThreadQueries() // override the right to use in main thread
                 .build()
         }
     }

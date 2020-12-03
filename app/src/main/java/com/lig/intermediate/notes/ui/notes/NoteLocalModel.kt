@@ -24,10 +24,10 @@ class NoteLocalModel @Inject constructor() : INoteModel {
         GlobalScope.launch {
                 val job = async {
                     try {
-                        // this is specify function to define timeout
-                        withTimeout(TIME_OUT){
-                            function.invoke()
-                        }
+                            // this is specify function to define timeout
+                            withTimeout(TIME_OUT){
+                                function.invoke()
+                            }
                         }
                     catch (e:Exception){
                        callback.invoke(false)

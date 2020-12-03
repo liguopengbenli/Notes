@@ -15,6 +15,5 @@ interface ITaskModel {
     fun updateTask(task: Task, callback: SuccessCallback)
     fun updateTodo(todo: Todo, callback: SuccessCallback)
     fun deleteTask(task: Task, callback: SuccessCallback)
-    fun retrieveTasks(): List<Task>
-    fun getFakeData(): MutableList<Task>
+    fun retrieveTasks(callback: (List<Task>?)->Unit)
 }
