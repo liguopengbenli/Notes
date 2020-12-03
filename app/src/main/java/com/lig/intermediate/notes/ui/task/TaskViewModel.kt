@@ -51,9 +51,6 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
         _taskListLiveData.postValue(localModel.retrieveTasks().toMutableList()) // asynchrone
     }
 
-
-
-
 }
 
 

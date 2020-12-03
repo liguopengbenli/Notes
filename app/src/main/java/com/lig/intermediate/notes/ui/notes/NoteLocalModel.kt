@@ -4,15 +4,17 @@ import android.util.Log
 import com.lig.intermediate.notes.application.NoteApplication
 import com.lig.intermediate.notes.database.RoomDataBaseClient
 import com.lig.intermediate.notes.models.Note
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 class NoteLocalModel @Inject constructor() : INoteModel {
 
     private var databaseClient: RoomDataBaseClient = RoomDataBaseClient.getInstance(NoteApplication.instance.applicationContext)
-
-
-    override fun getFakeNote(): MutableList<Note> = retrieveNotes().toMutableList()
-
+    
 
 //        mutableListOf(
 //        Note(description = "this is note 1 tesing"),
@@ -26,16 +28,43 @@ class NoteLocalModel @Inject constructor() : INoteModel {
     }
 
     override fun updateNote(note: Note, callback: SuccessCallback) {
-        databaseClient.noteDao().updateNote(note)
-        callback.invoke(true)
+        GlobalScope.launch {
+           val dbJob = this.async {
+               try {
+                   databaseClient.noteDao().updateNote(note)
+                   true
+               }catch(e:Exception) {
+                   false
+               }
+            }
+            callback.invoke( dbJob.await()) //return boolean
+        }
     }
 
     override fun deleteNote(note: Note, callback: SuccessCallback) {
-        databaseClient.noteDao().deleteNote(note)
-        callback.invoke(true)
+        GlobalScope.launch {
+            val dbJob = async {
+                try {
+                    databaseClient.noteDao().deleteNote(note)
+                    true
+                }catch(e:Exception) {
+                    false
+                }
+            }
+            callback.invoke(dbJob.await())
+        }
     }
 
-    override fun retrieveNotes(): List<Note>  = databaseClient.noteDao().retriveNotes()
+    override fun retrieveNotes(callback: (List<Note>?)->Unit )
+    {
+        GlobalScope.launch {
+                try {
+                    callback.invoke(databaseClient.noteDao().retriveNotes())
+                }catch(e:Exception) {
+                    callback.invoke(null)
+                }
+        }
+    }
 
 
 }
