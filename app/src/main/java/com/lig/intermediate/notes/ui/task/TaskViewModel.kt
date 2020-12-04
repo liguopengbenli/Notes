@@ -15,9 +15,12 @@ import javax.inject.Inject
 
 class TaskViewModel : ViewModel(), TaskListViewContract {
     private val _taskListLiveData: MutableLiveData<MutableList<Task>> = MutableLiveData()
-    val taskListLiveData: LiveData<MutableList<Task>> =
-        _taskListLiveData // read only access, live data is not mutable
+    val taskListLiveData: LiveData<MutableList<Task>> = _taskListLiveData // cast to read only access, live data is not mutable
     //private val model: TaskModel = TaskModel()
+
+    private val _stateChangeLiveData: MutableLiveData<ItemState> = MutableLiveData()
+    val stateChangedLiveData: LiveData<ItemState> = _stateChangeLiveData
+
     @Inject
     lateinit var localModel: ITaskModel
 
@@ -30,14 +33,19 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
 
     override fun onTodoUpdated(taskIndex: Int, todoIndex: Int, isComplete: Boolean) {
         GlobalScope.launch {
-            _taskListLiveData.value?.let {
-                val todo = it[taskIndex].todos[todoIndex]
+            _taskListLiveData.value?.let {tasklist->
+                val todo = tasklist[taskIndex].todos[todoIndex]
                 todo.apply {
                     this.isComplete = isComplete        // we have to be explicit here
-                    this.taskId = it[taskIndex].uid
+                    this.taskId = tasklist[taskIndex].uid
                 }
-                localModel.updateTodo(todo){
-                    loadData()
+                localModel.updateTodo(todo){success->
+                    //loadData()
+                    _stateChangeLiveData.postValue(ItemState.ItemUpdated(
+                        newTask = tasklist[taskIndex],
+                        il = taskIndex,
+                        iv = taskIndex + 1
+                    ))
                 }
             }
         }
@@ -45,9 +53,13 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
 
     override fun onTaskDeleted(taskIndex: Int) {
         GlobalScope.launch {
-            _taskListLiveData.value?.let {
-                localModel.deleteTask(it[taskIndex]){
-                    loadData()
+            _taskListLiveData.value?.let {taskList->
+                localModel.deleteTask(taskList[taskIndex]){success->
+                    //loadData()
+                    _stateChangeLiveData.postValue(ItemState.ItemDeleted(
+                        il = taskIndex,
+                        iv = taskIndex + 1
+                    ))
                 }
             }
         }
@@ -65,9 +77,11 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
         }
     }
 
+  sealed class ItemState(val indexInList: Int, val indexInView: Int){
+      class ItemUpdated(val newTask: Task, il: Int, iv: Int): ItemState(il, iv) // we can only extend seal class inside of sealed class
+      class ItemDeleted(il: Int, iv: Int): ItemState(il, iv)
+  }
 }
-
-
 
 
 /*

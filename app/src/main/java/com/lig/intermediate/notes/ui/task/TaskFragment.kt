@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lig.intermediate.notes.R
@@ -54,6 +55,13 @@ class TaskFragment : Fragment() {
         //taskViewModel = TaskViewModel()
         taskViewModel.taskListLiveData.observe(viewLifecycleOwner, Observer { taskList ->
             contentView.updateList(taskList)
+        })
+
+        taskViewModel.stateChangedLiveData.observe(viewLifecycleOwner, Observer { itemState->
+            when(itemState){
+                is TaskViewModel.ItemState.ItemUpdated -> contentView.updateItem(itemState.newTask, itemState.indexInList, itemState.indexInView)
+                is TaskViewModel.ItemState.ItemDeleted -> contentView.deleteItem(itemState.indexInList, itemState.indexInView)
+            }
         })
     }
 

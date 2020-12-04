@@ -35,6 +35,12 @@ class TaskView @JvmOverloads constructor( // make sure work for java
         imageButton.setOnClickListener {
             deleteCallback.invoke()
         }
+
+        if (isTaskComplete()) {
+            this@TaskView.item_task_title.setStrikeThrough()
+        } else {
+            this@TaskView.item_task_title.removeStrikeThrough()
+        }
     }
 
     private fun addChildViews(todoCheckCallback: (Int, Boolean) -> Unit){
@@ -45,11 +51,6 @@ class TaskView @JvmOverloads constructor( // make sure work for java
                 initView(todo) { isChecked ->
 
                     todoCheckCallback.invoke(todoIndex, isChecked)
-                    if (isTaskComplete()) {
-                        this@TaskView.item_task_title.setStrikeThrough()
-                    } else {
-                        this@TaskView.item_task_title.removeStrikeThrough()
-                    }
                 } // passing function as parameter
             }
             // R.layout.view_todo : to get resources from here

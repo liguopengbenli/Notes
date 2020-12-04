@@ -5,16 +5,27 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 // use generic to get any type of data
+
 abstract class BaseRecycleAdapter<T>(
     protected val masterList: MutableList<T> = mutableListOf()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    fun onItemDeleted(indexInList: Int, indexInView: Int){
+        masterList.removeAt(indexInList)
+        notifyItemRemoved(indexInView)  // just notify partially, nice performance
+    }
+
+    fun onItemUpdated(newItem: T, indexInList: Int, indexInView: Int){
+        masterList[indexInList] = newItem
+        notifyItemChanged(indexInView)
+    }
+
     fun updateList(list: List<T>) {
-        val result = DiffUtil.calculateDiff(DiffUtilCallbackImpl<T>(masterList, list))
+        //val result = DiffUtil.calculateDiff(DiffUtilCallbackImpl<T>(masterList, list))
         masterList.clear()
         masterList.addAll(list)
-        //notifyDataSetChanged()
-        result.dispatchUpdatesTo(this) // //update all the list not optimal, Use diffUtil to update partially
+        notifyDataSetChanged()
+        //result.dispatchUpdatesTo(this) // //update all the list not optimal, Use diffUtil to update partially
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

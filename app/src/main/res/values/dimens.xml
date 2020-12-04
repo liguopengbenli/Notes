@@ -11,5 +11,6 @@
     <dimen name= "text_size_small">12sp</dimen>
     <dimen name="elevation_default">2dp</dimen>
     <dimen name="icon_img_size">32dp</dimen>
+    <dimen name="fix_menu_size">55dp</dimen>
 
 </resources>
