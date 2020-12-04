@@ -35,6 +35,9 @@ class CreateTaskFragment : Fragment() {
     @Inject
     lateinit var model: ITaskModel // it's always better to inject interface
 
+    @Inject
+    lateinit var stateModel: StateModel
+
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +58,7 @@ class CreateTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         createTaskView.taskEditTask.addTextChangedListener(object : StateChangeTextWatcher(){
             override fun afterTextChanged(s: Editable?) {
+                stateModel.updateState(s.toString())
                 if(!s.isNullOrEmpty() && previousValue.isNullOrEmpty()){
                     addTodoView()
                 }else if(!previousValue.isNullOrEmpty() && s.isNullOrEmpty()){
