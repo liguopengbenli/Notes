@@ -36,7 +36,7 @@ class TaskView @JvmOverloads constructor( // make sure work for java
             deleteCallback.invoke()
         }
 
-        if (isTaskComplete()) {
+        if (task.isComplete()) {
             this@TaskView.item_task_title.setStrikeThrough()
         } else {
             this@TaskView.item_task_title.removeStrikeThrough()
@@ -58,10 +58,6 @@ class TaskView @JvmOverloads constructor( // make sure work for java
             todoContainer.addView(todoView) // attach to parent
         }
     }
-
-    private fun isTaskComplete(): Boolean = task.todos.filter { !it.isComplete }.isEmpty()
-    // filter literate all elements and check the condition
-
 
 
 

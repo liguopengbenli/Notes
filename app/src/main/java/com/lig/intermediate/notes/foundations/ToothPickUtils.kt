@@ -33,6 +33,6 @@ object CreateActivityModule: Module(){
     init {
         bind(INoteModel::class.java).to(NoteLocalModel::class.java)
         bind(ITaskModel::class.java).to(TaskLocalModel::class.java)  // Here we don't use constructor but new dependency injection method
-        bind(StateModel::class.java).toInstance(StateModel()) // call singleton  
+        bind(StateModel::class.java).toInstance(StateModel()) // call singleton
     }
 }
